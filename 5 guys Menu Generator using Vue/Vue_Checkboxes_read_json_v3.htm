@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+   <head>
+      <!--<script src="https://unpkg.com/vue@next"></script>-->
+      <script src="https://unpkg.com/vue@3"></script>
+      <meta name="keywords" content="Vue, La Salle University, Thomas Blum, Tom Blum" />
+      <meta name="description" content="Vue example" />
+      <title>five guys in Guys</title>
+      <link rel="stylesheet" href="check.css">
+   </head>
+
+   <body>
+      <h1>Five Guys in Vue</h1>
+      <div id="vue_check">
+         <!-- identify region to which Vue is applied -->
+         <span v-for="aSandwich in sandwichs" v-on:change="calc">
+            <input type="radio" :id="aSandwich.sandwich_name" :value="aSandwich" v-model="user_choices_sandwich">
+            <label :for="aSandwich.sandwich_name">{{aSandwich.sandwich_name}}</label>
+            <br />
+         </span>
+         <br />
+         <br />
+         
+         <span v-for="acook_level in cook_level">
+            <input type="radio" :id="acook_level.sandwich_name" :value="acook_level" v-model="user_choices_cook_level">
+            <label :for="acook_level.sandwich_name">{{acook_level.name}}</label>
+            <br />
+         </span>
+         <br>
+
+         <span v-for="atoppings in toppings">
+            <input type="checkbox" :id="atoppings.topping_name" :value="atoppings" v-model="user_choices_toppings">
+            <label :for="atoppings.topping_name">{{atoppings.topping_name}}</label>
+            <br />
+         </span>
+         <br />
+         <br />
+
+         <span v-for="asides in sides" v-on:change="calc">
+            <input type="checkbox" :id="asides.side_name" :value="asides" v-model="user_choices_sides">
+            <label :for="asides.side_name">{{asides.side_name}}</label>
+            <br />
+         </span>
+
+         <span>Order:
+            <br />
+               Sandwich Choice -- {{user_choices_sandwich.sandwich_name}} -- {{user_choices_sandwich.sandwich_price}}
+               <br />
+               Cook Level -- {{user_choices_cook_level.name}}
+               <br />
+               Toppings: 
+               <span v-for="item in user_choices_toppings">{{item.topping_name}} | </span>
+               <br />
+               Sides:
+               <span v-for="item in user_choices_sides">{{item.side_name}} -- {{item.side_price}} | </span>
+               <br />
+               Total: -- {{total}}
+
+         </span>
+      </div>
+      </div>
+      <script >
+         const Movies = {
+            data() {
+               return {
+                  user_choices_sandwich: [],
+                  user_choices_cook_level: [],
+                  user_choices_toppings: [],
+                  user_choices_sides: [],
+         
+                  total: 0,
+                  sandwichs: [],
+                  cook_level: [],
+                  toppings: [],
+                  sides: []
+               }
+            }, //end data property 	
+            created() {
+               fetch('FiveGuys.json')
+                  .then(response => response.json())
+                  .then(data => {
+                     this.sandwichs = data.sandwich
+                     this.cook_level = data.cook_level
+                     this.toppings = data.toppings
+                     this.sides = data.sides
+         
+                     //pre-select a movie object
+                     this.user_choices_sandwich = this.sandwichs[0] // pre-select first size Small
+                     this.user_choices_cook_level = this.cook_level[0] // pre-select first size Small
+                     
+                  })
+                  .catch(function (error) {
+                     console.log(error);
+                  })
+         
+               
+            },
+            methods: {
+               calc(){
+                  this.total=this.user_choices_sandwich.sandwich_price;
+                  if(this.user_choices_sandwich){
+                     this.total = this.user_choices_sandwich.sandwich_price;
+                  }
+                  console.log("before for loop" + this.total);
+         
+                  for(i=0; i< this.user_choices_sides.length; i++){
+                     this.total += this.user_choices_sides[i].side_price;
+                  }
+                  console.log("after for loop" + this.total);
+                  this.total = parseFloat(this.total).toFixed(2);
+               }
+            }		
+                  
+            
+            
+            
+            //end created method	
+         } //end Vue object
+         
+         Vue.createApp(Movies).mount('#vue_check')
+      </script>
+   </body>
+
+</html>

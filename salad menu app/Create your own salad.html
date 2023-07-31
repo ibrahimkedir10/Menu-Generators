@@ -1,0 +1,220 @@
+
+<!-- saved from url=(0053)http://www1.lasalle.edu/~blum/c343wks/SaladWorks.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Create your own salad</title>
+<style>
+	label{
+	display: inline-block;
+	width: 150px;
+	}
+	input[type="submit"] {
+     padding: 0.5em;
+     display: block;
+     background-color: #cc6600;
+	 color: #ffffff;
+	 font-weight: bold;
+ }
+</style>
+</head>
+<body>
+<p>Complete the following information to order your salad.</p>
+Name: <input type="text " id="txtName" value=""><br>
+<h2>Lettuce type:</h2>
+<input type="radio" id="radIceberg" name="lettucetype" onclick="return handleRadioClick(this)"><label for="radIceberg" >Iceberg </label> 
+<input type="radio" id="radRomaine" name="lettucetype" onclick="return handleRadioClick(this)"><label for="radRomaine">Romaine </label> 
+<input type="radio" id="radSpringMix" name="lettucetype" onclick="return handleRadioClick(this)"><label for="radSpringMix">Spring Mix</label> 
+<input type="radio" id="radSpinach" name="lettucetype" onclick="return handleRadioClick(this)"><label for="radSpinach">Spinach</label> 
+<br>
+<h2>Fixings:</h2>
+<input type="checkbox" value="Chicken" id="chChicken" name = "meat[]" onclick="return handleCheckboxClick(this)"><label for="chChicken">Chicken </label> 
+<input type="checkbox" value="Tuna" id="chTuna" name = "meat[]" onclick="return handleCheckboxClick(this)"><label for="chTuna">Tuna </label> 
+<input type="checkbox" value="Tofu" id="chTofu" name = "meat[]" onclick="return handleCheckboxClick(this)"><label for="chTofu">Tofu</label> 
+<input type="checkbox" value="Ham" id="chHam"  name = "meat[]" onclick="return handleCheckboxClick(this)"><label for="chHam">Ham</label> 
+<br>
+<input type="checkbox" value="peppers" id="chPeppers" name = "veggies[]" onclick="return handleCheckboxClick(this)"><label for="chPeppers">Peppers </label> 
+<input type="checkbox" value="Broccoli" id="chBroccoli" name = "veggies[]" onclick="return handleCheckboxClick(this)"><label for="chBroccoli">Broccoli </label> 
+<input type="checkbox" Value= "Carrots"id="chCarrots" name = "veggies[]" onclick="return handleCheckboxClick(this)"><label for="chCarrots">Carrots</label> 
+<input type="checkbox" value="Cucumbers" id="chCucumbers" name = "veggies[]" onclick="return handleCheckboxClick(this)"><label for="chCucumbers">Cucumbers</label> 
+<br>
+<h2>Dressings:</h2>
+<select id="selSize1" onchange="return handleSelectChange()">
+	<option value="Balsamic">Balsamic Vinaigrette</option>
+	<option value="Ceasar">Caesar</option>
+	<option value="Italian">Italian</option>
+	<option value="Ranch">Ranch</option>
+	<option value = "french">French</option>
+</select> 
+<br>
+<br>
+<input id="submit" onclick="submit()" type="submit" value="Place your order">
+<br></br>
+<span> ---------------
+
+	<div id= "nameoutput">--</div>
+	<span>---------------</span>
+	<div id= "lettuceoutput">--</div>
+	<div id= "fixingsutput">--</div>
+	<div id= "veggies">--</div>
+	<div id= "dressingsoutput">--</div>
+	<div id= "costoutput">--</div>
+	
+</span>
+
+
+</body>
+
+<script>
+
+
+
+
+		
+// checkbox 
+		document.getElementById("submit").disabled = false;
+
+//uncheck any checkboxes when page starts or refreshes
+ //******************************************************************************
+
+			function submit() {
+   //declare name
+
+
+
+
+
+          		let nameInput;
+			  	nameInput = document.getElementById("txtName").value;
+			  document.getElementById("nameoutput").innerHTML = "order for:" + nameInput;
+			 	
+				// document.getElementById("txtname").innerHTML = document.getElementById("nameoutput").innerHTML ;
+	
+
+				 // radio buttom 
+				 let userInput2;
+            for (let i = 0; i < document.getElementsByName("lettucetype").length; i++) {
+               if (document.getElementsByName("lettucetype")[i].checked) {
+                  userInput2 = document.getElementsByName("lettucetype")[i].value;
+                  userLabel2 = document.getElementsByName("lettucetype")[i].nextElementSibling.innerHTML;
+                  
+              		 }//end if 
+					   
+				
+           		 }//end for
+
+          		  alert("You chose for your lettuce: " + userLabel2 );
+           		 console.log("You chose size: " + userLabel2 );
+           		 document.getElementById("lettuceoutput").innerHTML = "Lettuce: " + userLabel2;
+           		 document.getElementById("submit").disabled = true;
+     
+
+	//checkbox1
+				let userInput1 = [];
+				for (let i = 0; i < document.getElementsByName("meat[]").length; i++) {
+					if (document.getElementsByName("meat[]")[i].checked) {
+					//alert(document.getElementsByName("meat[]")[i].value);
+					userInput1.push(document.getElementsByName("meat[]")[i].value);
+					}
+				}
+
+				//see if any movies were selected
+				if (userInput1.length == 0) {
+					alert("You did not choose any meat.");
+				} else {
+				
+					alert("You selected: " + userInput1.join(", ") + ".");
+					console.log("You selected: " + userInput1.join(", ") + ".");
+						//use Array objects join method
+					document.getElementById("fixingsutput").innerHTML =
+						"Meat: "  + ":<ol><li>" + userInput1.join("</li><li>") + "</li></ol>";
+				//	document.getElementById("submit").disabled = true;
+				}
+
+	//checkbox 2
+				let userInput = [];
+					for (let i = 0; i < document.getElementsByName("veggies[]").length; i++) {
+					if (document.getElementsByName("veggies[]")[i].checked) {
+				//	alert(document.getElementsByName("veggies[]")[i].value);
+					userInput.push(document.getElementsByName("veggies[]")[i].value);
+					}
+				}
+
+				//see if any movies were selected
+				if (userInput.length == 0) {
+					alert("You did not choose any veggies.");
+				} else {
+					alert("You selected: " + userInput.join(", ") + ".");
+					console.log("You selected: " + userInput.join(", ") + ".");
+						//use Array objects join method
+					document.getElementById("veggies").innerHTML =
+						"Vegtables " + ":<ol><li>" + userInput.join("</li><li>") + "</li></ol>";
+					document.getElementById("submit").disabled = true;
+				}
+
+					let userInput3;
+           		 userInput3 = document.getElementById("selSize1").value;
+
+           	
+           			 alert(`You chose Dressing: ${userInput3}.`); // template literal
+           			 console.log("1. " + userInput3)
+           	        //  	 document.getElementById("submit").disabled = true;
+         //***************************************************************************************************
+
+		 			function handleSelectChange() {
+          			  document.getElementById("dressingsoutput").innerHTML = "Dressing: ----";
+           // document.getElementById("submit").disabled = false;
+        			 }
+					document.getElementById("dressingsoutput").innerHTML = "Dressing: " + userInput3;
+ 
+
+					for (let i = 0; i < document.getElementsByName("lettucetype").length; i++) {
+               
+					   if (document.getElementsByName("lettucetype")[i].checked) {
+						let totalcost = 3.50
+						let fixedamout =(userInput.length + userInput1.length) * 0.50
+						totalcost = totalcost + fixedamout
+						document.getElementById("costoutput").innerHTML = "Total: $" + totalcost.toFixed(2);
+
+
+				
+                  		   }
+				
+           		 }//end for
+				
+					
+
+
+
+			}/// end of event handler submit 
+//*****************************************************************************************
+// check box 1 & 2
+// checkbox click event
+			function handleCheckboxClick(myElement) {
+//take away display because user changed selection
+				document.getElementById("nameoutput").innerHTML = "";
+				document.getElementById("fixingsutput").innerHTML = "";
+				document.getElementById("lettuceoutput").innerHTML = "";
+				document.getElementById("veggies").innerHTML = "";
+				document.getElementById("dressingsoutput").innerHTML = "";
+				document.getElementById("costoutput").innerHTML ="";
+//re-enable button because user changed selection
+				document.getElementById("submit").disabled = false;
+				console.log(myElement.value + " " + myElement.checked);
+	}
+
+	function handleRadioClick(myElement) {
+            document.getElementById("nameoutput").innerHTML = "";
+			document.getElementById("fixingsutput").innerHTML = "";
+			document.getElementById("lettuceoutput").innerHTML = "";
+			document.getElementById("veggies").innerHTML = "";
+			document.getElementById("dressingsoutput").innerHTML = "";
+			document.getElementById("costoutput").innerHTML = "";
+            document.getElementById("submit").disabled = false;
+            console.log(myElement.value);
+         }
+
+
+
+
+</script>
+
+</html>

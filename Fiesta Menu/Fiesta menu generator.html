@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <title>Ibrahim Kedir's Fiesta</title> <!--Ibrahim Kedir-->
+      <header>Ibrahim Kedir</header>
+
+      <style>
+         .wrapper {
+            display: grid;
+            grid-gap: 5px;
+            width: 815px;
+            grid-template-columns: 200px 200px 200px 200px;
+            background-color: rgb(80, 153, 149);
+            color: rgb(99, 32, 32);
+            border-radius: 5px;
+            font-family: fantasy,initial;
+         }
+
+         .box {
+            background-color: rgb(110, 110, 64);
+            color: black;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1em;
+            font-family: fantasy,initial;
+            border: solid black 1px;
+         }
+
+         .a {
+            grid-column: 1 / span 4;
+            font-size: 1.5rem;
+            font-weight: bold;
+         }
+      </style>
+   </head>
+
+   <body style="background-color: brown; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+      <div class="wrapper">
+         <div class="box a">Setting type
+         </div>
+         <div class="box a">
+            <input id="radSetting3" type="radio" name="piecesofchicken" onclick="return handleRadioClick(this)"/>
+            <label for="radSetting3">3-piece 
+               (Dinner plate, salad plate, bowl)</label>
+            <br />
+            <input id="radSetting4" type="radio" name="piecesofchicken" checked onclick="return handleRadioClick(this)" />
+            <label for="radSetting4">4-piece 
+               (Dinner plate, salad plate, bowl, mug)</label>
+            <br />
+            <input id="radSetting5" type="radio" onclick="return handleRadioClick(this)"name="piecesofchicken " />
+            <label for="radSetting5">5-piece 
+               (Dinner plate, salad plate, bowl, cup, saucer)</label>
+            <br />
+            <input id="radSetting6" type="radio" onclick="return handleRadioClick(this)" name="piecesofchicken" />
+            <label for="radSetting6">6-piece 
+               (Dinner plate, salad plate, Classic bowl, Bistro bowl, cup, saucer)</label>
+         </div>
+         <div class="box a">Color
+         </div>
+         <div class="box">
+            <input id="radColor1" type="radio" onclick="return handleRadioClick(this)" name = "colorselection" />
+            <label for="radColor1">Daffodil</label>
+         </div>
+         <div class="box">
+            <input id="radColor2" type="radio" onclick="return handleRadioClick(this)" name = "colorselection" />
+            <label for="radColor2">Mulberry</label>
+         </div>
+         <div class="box">
+            <input id="radColor3" type="radio" onclick="return handleRadioClick(this)" name = "colorselection" />
+            <label for="radColor3">Poppy</label>
+         </div>
+         <div class="box">
+            <input id="radColor4" type="radio" onclick="return handleRadioClick(this)" name = "colorselection" checked/><label for="radColor4">Butterscotch</label>
+         </div>
+         <div class="box">
+            <input id="radColor5" type="radio" onclick="return handleRadioClick(this)" name = "colorselection" />
+            <label for="radColor5">Lapis</label>
+         </div>
+         <div class="box">
+            <input id="radColor6" type="radio" onclick="return handleRadioClick(this)" name = "colorselection" />
+            <label for="radColor6">Meadow</label>
+         </div>
+         <div class="box">
+            <input id="radColor7" type="radio" onclick="return handleRadioClick(this)" name = "colorselection"/>
+            <label for="radColor7">Slate</label>
+         </div>
+         <div class="box">
+            <input id="radColor7" type="radio" onclick="return handleRadioClick(this)" name = "colorselection" />
+            <label for="radColor8">Lemon Grass</label>
+         </div>
+         <div class="box a">
+            Number of settings:
+
+            <input type="number" id="numberselected" value="1" min="1" step="1" />
+         </div>
+         <div class="box a">Auxiliary pieces
+         </div>
+         <div class="box">
+            <input id="checkAux1" type="checkbox" name = "auxiliarypieces" onclick="return handleCheckboxClick(this)" value="Sugar bowl" />
+            <label for="checkAux1">Sugar bowl</label>
+         </div>
+         <div class="box">
+            <input id="checkAux2" type="checkbox" name = "auxiliarypieces" onclick="return handleCheckboxClick(this)" value="Gravy boat"/>
+            <label for="checkAux2">Gravy boat</label>
+         </div>
+         <div class="box">
+            <input id="checkAux3" type="checkbox" name = "auxiliarypieces" onclick="return handleCheckboxClick(this)" value="Creamer"/>
+            <label for="checkAux3">Creamer</label>
+         </div>
+         <div class="box">
+            <input id="checkAux4" type="checkbox" name = "auxiliarypieces" onclick="return handleCheckboxClick(this)" value="Salt & Pepper"/>
+            <label for="checkAux4">Salt & Pepper</label>
+         </div>
+         <div class="box a">
+            <input type="button"  onclick="submit()" value="Order" id="finalorderbtn" style="border-radius: 10px; border-color: blue;">
+         </div>
+         <div class="box a" id="orderoutput" name="orderdetails">
+            Order Details:
+         </div>
+      </div>
+
+      <script>
+         // Ibrahim Kedir
+        		 // radio buttom 
+              
+      function submit() {
+				 let userInput;
+             let totalcost = 0.00
+             let costofchicken = 0.00
+            for (let i = 0; i < document.getElementsByName("piecesofchicken").length; i++) {
+               if (document.getElementsByName("piecesofchicken")[i].checked) {
+                  userInput = document.getElementsByName("piecesofchicken")[i].value;
+                  userLabel = document.getElementsByName("piecesofchicken")[i].nextElementSibling.innerHTML;
+                  if(userInput.length == 1){
+coastofchicken = 23.99;
+                  }
+              		 }//end if 
+					   
+				
+           		 }//end for
+            
+                  let userInput1;
+            for (let i = 0; i < document.getElementsByName("colorselection").length; i++) {
+               if (document.getElementsByName("colorselection")[i].checked) {
+                  userInput1 = document.getElementsByName("colorselection")[i].value;
+                  userLabel1 = document.getElementsByName("colorselection")[i].nextElementSibling.innerHTML;
+                  
+              		 }//end if 
+					   
+                     
+           		 }//end for
+                  alert("working")
+
+                  let userInput2 = [];
+				for (let i = 0; i < document.getElementsByName("auxiliarypieces").length; i++) {
+					if (document.getElementsByName("auxiliarypieces")[i].checked) {
+					//alert(document.getElementsByName("meat[]")[i].value);
+					userInput2.push(document.getElementsByName("auxiliarypieces")[i].value);
+					}
+				}
+
+				//see if any movies were selected
+				if (userInput2.length == 0) {
+					alert("You did not choose any auxiliary pieces.");
+				} else {
+
+					
+				}
+
+            let userInput3;
+           		 userInput3 = document.getElementById("numberselected").innerHTML;
+
+           	
+           			 alert( userInput3); // template literal
+           			 console.log("1. " + userInput3)
+
+          		  alert(userLabel + userLabel1);
+           		 console.log(userLabel );
+           		 document.getElementById("orderoutput").innerHTML = "Order Details:" + "<br>" + userLabel + "<br>" + userLabel1 + "<br>"+ ":<ol><li>" + userInput2.join("</li><li>") + "</li></ol>";
+           		 
+     
+
+
+         }
+
+			function handleCheckboxClick(myElement) {
+//take away display because user changed selection
+				document.getElementById("orderoutput").innerHTML = "";
+
+	}
+
+   function handleRadioClick(myElement) {
+      document.getElementById("orderoutput").innerHTML = "";
+         }
+
+      </script>
+   </body>
+
+</html>

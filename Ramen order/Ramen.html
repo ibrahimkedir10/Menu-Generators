@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<!--ibrahim kedir-->
+	<head>
+		<meta charset="UTF-8" />
+		<title></title>
+
+		<style>
+			body,
+			iframe {
+				text-align: center;
+			}
+
+			.wrapper {
+				text-align: left;
+				display: grid;
+				grid-gap: 5px;
+				width: 930px;
+				grid-template-columns: 340px 80px 500px;
+				background-color: rgb(77, 33, 33);
+				color: #111;
+				border-radius: 5px;
+				/* justify-content: center; */
+				margin-Left: auto;
+				margin-right: auto;
+			}
+
+			.box {
+				background-color: #744949;
+				color: #333333;
+				border-radius: 5px;
+				padding: 20px;
+				font-size: 1em;
+				border: solid black 1px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: blueviolet;">  
+		<h1>
+            Ibrahim Kedir’s Ramen
+        </h1>
+		<title> Ibrahim Kedir’s Ramen</title>
+
+		<div class="wrapper">
+			<div class="box" style="grid-column: 1 / span 2; grid-row: 1;">
+				<select id="selTitle"></select>
+		</div>
+			<div class="box" style="grid-column: 3; grid-row: 1 /span 6;">
+			image<img id="img" alt="image of dog" src="" hight="400px"/>
+			</div>
+			<div class="box" >Number of servings </div>
+			<div class="box" id="numberofservings">---</div>
+			<div class="box" >Serving size (oz) </div>
+			<div class="box" id="servingsize">---</div>
+			<div class="box">Calories per serving </div>
+			<div class="box" id="calories">---</div>
+			<div class="box">Carbs per serving </div>
+			<div class="box" id="carbs">---</div>
+			<div class="box">Sodium per serving (mg) </div>
+			<div class="box" id="sodium">---</div>
+			<div class="box" style="grid-column: 1 / span 3;" id="desc">---</div>
+
+
+		</div>
+
+
+		<script>
+// ibrahim kedir 
+            class RamenClass {
+
+                constructor(aname, anum_serving, aserving_size, acalories, acarbs, asodium, aimage, adesc, aamazon) {
+                    this.name = aname;
+                    this. num_serving= anum_serving;
+                    this.serving_size = aserving_size;
+                    this. calories= acalories;
+                    this.carbs = acarbs;
+                    this.sodium = asodium;
+                    this.image = aimage;
+					this.desc = adesc;
+                    this.amazon = aamazon;
+                }
+
+            }
+
+            document.getElementById("selTitle").addEventListener("change", selectramen)
+
+            // declare an array 
+            let myramen = [];
+
+            fetch('ramen.xml')
+                .then((res) => res.text())
+                .then(function (data) {
+                    // need help parsing XML
+                    let parser = (new window.DOMParser()).parseFromString(data, "text/xml");
+
+                    console.log(parser.getElementsByTagName("ramen").length);
+                    for (let i = 0; i < parser.getElementsByTagName("ramen").length; i++) {
+                        //console.log(parser.getElementsByTagName("dogName")[i].childNodes[0].nodeValue);
+                        name = parser.getElementsByTagName("name")[i].childNodes[0].nodeValue;
+                        num_serve = parser.getElementsByTagName("num_serve")[i].childNodes[0].nodeValue;
+                        serving_size = parser.getElementsByTagName("serving_size")[i].childNodes[0].nodeValue;
+                        calories = parser.getElementsByTagName("calories")[i].childNodes[0].nodeValue;
+                        carbs = parser.getElementsByTagName("carbs")[i].childNodes[0].nodeValue;
+                        sodium = parser.getElementsByTagName("sodium")[i].childNodes[0].nodeValue;
+                        image = parser.getElementsByTagName("image")[i].childNodes[0].nodeValue;
+						amazon = parser.getElementsByTagName("amazon")[i].childNodes[0].nodeValue;
+                        desc = parser.getElementsByTagName("desc")[i].childNodes[0].nodeValue;
+                        //console.log(dogImage);
+                        myramen[i] = new RamenClass(name, num_serve, serving_size, calories, carbs, sodium, image, amazon, desc);
+                    }
+
+                    mySelect = document.getElementById("selTitle");
+                    for (i = 0; i < myramen.length; i++) {
+                        let myOption = document.createElement("option");
+                        myOption.text = myramen[i].name;
+                        myOption.value = i;
+                        mySelect.appendChild(myOption, null);
+                    }
+
+                    // trigger a change event for the drop-down select
+                    mySelect.value = Math.floor(Math.random() * myTed.length);
+                    let event = new Event('change');
+                    mySelect.dispatchEvent(event);
+                })//end fetch
+
+
+            // when user selects a dog
+            function selectramen() {
+                let myIndex = document.getElementById("selTitle").value;
+                let userramen = myramen[myIndex];
+                document.getElementById("numberofservings").innerHTML = userramen.num_serve;
+                document.getElementById("servingsize").innerHTML = userramen.serving_size;
+                document.getElementById("calories").innerHTML = userramen.calories;
+                document.getElementById("carbs").innerHTML = userramen.carbs;
+                document.getElementById("sodium").innerHTML = userramen.sodium;
+				document.getElementById("desc").innerHTML = userramen.desc;
+                document.getElementById("img").src = userramen.image;
+            }
+
+/*
+            function handlecart() {
+
+                let myIndex = document.getElementById("selTitle").value;
+                let tedTalks = myTed[myIndex];
+                let min = parseInt(document.getElementById("selMin").value);
+                let max = parseInt(document.getElementById("selMax").value);
+                let minute = parseInt(tedTalks.tedTime)
+
+                for (i = 0; i < myTed.length; i++) {
+                    console.log(parseInt(myTed[i].tedTime))
+                    if (parseInt(myTed[i].tedTime) >= min && parseInt(myTed[i].tedTime) <= max) {
+                        document.getElementById("taCart").innerHTML += myTed[i].tedTitle + " " + myTed[i].tedTime + "\n";
+                    }
+                }
+
+
+
+
+
+            }
+
+*/
+        </script>
+	</body>
+
+</html>

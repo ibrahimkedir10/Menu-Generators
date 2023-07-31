@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--ibrahim kedir-->
+    <title>Ibrahim kedir's Salad</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            background-color: rgb(56, 94, 150);
+            color: rgb(34, 1, 58);
+        }
+
+        .wrapper {
+            text-align: left;
+            display: grid;
+            grid-gap: 5px;
+            width: 550px;
+            grid-template-columns: 180px 180px 180px;
+            background-color: rgb(12, 226, 162);
+            color: aliceblue;
+            border-radius: 5px;
+            margin-Left: auto;
+            margin-right: auto;
+        }
+
+        .box {
+            background-color: rgb(210, 216, 30);
+            color: rgb(34, 1, 58);
+            border-radius: 5px;
+            padding: 20px;
+            font-size: 1em;
+            border: solid black 1px;
+        }
+
+        .box1 {
+            background-color: darkseagreen;
+            color: rgb(34, 1, 58);
+            border-radius: 5px;
+            padding: 40px;
+            font-size: 1em;
+            border: solid black 1px;
+        }
+
+        .box2 {
+            background-color: darkseagreen;
+            color: rgb(34, 1, 58);
+            border-radius: 5px;
+            padding: 60px;
+            width: 430px;
+            text-align: left;
+            height: 10px;
+            font-size: 1em;
+            border: solid black 1px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>Ibrahim Kedir Salad</header>
+    <div id="divSaladChoice" class="wrapper"></div>
+    <script type="text/babel">
+        //ibrahim kedir 
+
+        class SaladChoosing extends React.Component {
+
+            constructor(props) {
+                super(props)
+
+                this.state = {
+                    selectedIndices: [],
+                    salads: {},
+                    lettuceIndex: 0,
+                    fixingsIndex: 0,
+                    dressingsIndex: 0,
+                    sal: [],
+                    isLoading: true,
+                    price: 3.50
+                }
+            }
+
+            handleLettuceChange = e => {
+                this.setState({ lettuceIndex: e.target.value, sal: [] });
+
+            }
+
+            handleFixingsChange = e => {
+                var total;
+
+                let copy = this.state.selectedIndices;
+                if (e.target.checked) {
+                    copy.push(e.target.value);
+                    copy.sort(function (a, b) { return a - b });
+                } else {
+                    copy = copy.filter(function (element) {
+                        return element != e.target.value;
+                    });
+                }
+                total = 3.50 + (this.state.selectedIndices.length * .50);
+
+                this.setState({ selectedIndices: copy, sal: [], price: total });
+            }
+
+
+            handleDressingsChange = e => {
+                this.setState({ dressingsIndex: e.target.value, sal: [] });
+            }
+
+            addsalad = e => {
+                let copy = [];
+                var total;
+                let toAdd = "Lettuce Type: " + this.state.salads.lettuce[this.state.lettuceIndex].name;
+                copy.push(toAdd)
+                let toAdd2 = ""
+                for (let i = 0; i < this.state.selectedIndices.length; i++) {
+                    toAdd2 = this.state.salads.fixings[this.state.selectedIndices[i]].name;
+                    copy.push(toAdd2)
+                }
+                total = 3.50 + (this.state.selectedIndices.length * 0.5);
+
+
+                toAdd = "Dressing: " + this.state.salads.dressings[this.state.dressingsIndex].name;
+                copy.push(toAdd)
+
+                this.setState({ sal: copy, price: total })
+            }
+
+            componentDidMount() {
+                fetch('SaladData.json')
+                    .then(response => response.json())
+                    .then(data => this.setState({ salads: data, isLoading: false }));
+            }
+
+            render() {
+                if (this.state.isLoading) {
+                    return <h1>POOP</h1>
+                } else {
+                    return (
+                        <>
+                            <div className="box">
+                                <h2>Lettuce</h2>
+
+                                {
+
+                                    this.state.salads.lettuce.map((lettuce, i) => {
+                                        if (i == this.state.lettuceIndex) {
+                                            return (
+                                                <>
+                                                    <input key={"radio_" + i} id={"lettuce_" + i} type="radio" name="lettuce" checked="checked" value={i} onChange={this.handleLettuceChange} />
+                                                    <label key={"label_" + i} htmlFor={"lettuce_" + i}>
+                                                        {lettuce.name}
+                                                    </label>
+                                                    <br />
+                                                </>
+                                            )
+                                        } else {
+                                            return (
+                                                <>
+                                                    <input key={"radio_" + i} id={"lettuce_" + i} type="radio" name="lettuce" value={i} onChange={this.handleLettuceChange} />
+                                                    <label key={"label_" + i} htmlFor={"lettuce_" + i}>
+                                                        {lettuce.name}
+                                                    </label>
+                                                    <br />
+                                                </>
+
+                                            )
+                                        }
+                                    }
+                                    )
+
+                                }
+
+                            </div>
+
+                            <div className="box">
+                                <h2>Fixings</h2>
+
+                                {
+                                    this.state.salads.fixings.map((fixing, i) => {
+                                        if (this.state.selectedIndices.indexOf(i) == -1) {
+                                            return (
+                                                <>
+                                                    <input key={"check_" + i} id={"fixing" + i} type="checkbox" name="fixing" value={i} onChange={this.handleFixingsChange} />
+                                                    <label key={"label_" + i} htmlFor={"fixing" + i}>
+                                                        <span>{fixing.name}</span> ({fixing.name})
+                                                    </label>
+                                                    <br />
+                                                </>
+                                            )
+                                        }
+                                        else {
+                                            return (
+                                                <>
+                                                    <input key={"check_" + i} id={"fixing" + i} type="checkbox" checked="checked" name="fixing" value={i} onChange={this.handleFixingsChange} />
+                                                    <label key={"label_" + i} htmlFor={i}>
+                                                        <span>{fixing.name}</span> ({fixing.name})
+                                                    </label>
+                                                    <br />
+                                                </>
+                                            )
+                                        }
+                                    }
+                                    )
+                                }
+
+
+                            </div>
+
+
+                            <div className="box">
+                                <h2>Dressings</h2>
+                                <select onChange={this.handleDressingsChange}>
+                                    {
+                                        this.state.salads.dressings.map((dressing, i) => {
+                                            return (
+                                                <>
+
+                                                    <option key={i} value={i}>
+                                                        {dressing.name}
+                                                    </option>
+                                                    <br />
+                                                </>
+                                            )
+                                        }
+                                        )
+
+                                    }
+                                </select>
+                            </div>
+                            <div className="box">
+                                <h3>Dressings</h3>
+                                <input type="button" value="Order Salad" onClick={this.addsalad} />
+                            </div>
+                            <div className="box" style={{ gridColumn: "2 / span 2" }}>
+                                <h3>Salad Ordered:</h3>
+                                {this.state.sal.map((item, i) => {
+                                    return (
+                                        <>
+                                            <span>{item}</span>
+                                            <br />
+                                        </>
+                                    )
+                                }
+
+                                )}
+                            </div>
+                            <div className="box" style={{ gridColumn: "1 / span 3" }}>
+                                {"Price: $" + this.state.price.toFixed(2)}
+                            </div>
+                        </>
+
+                    )
+
+                }
+
+            }
+
+
+        }
+
+        ReactDOM.render(<SaladChoosing />, document.querySelector('#divSaladChoice'))
+    </script>
+
+</body>
+
+</html>
